@@ -1,3 +1,4 @@
+import { Socket } from 'dgram';
 import express from 'express';
 import mongoose from 'mongoose';
 import path from 'path';
@@ -17,7 +18,7 @@ app.get('/', (req, res) => {
         }
     };
   res.sendFile('index.html', options);
-  console.log(req.header('x-forwarded-for') || req.connection.remoteAddress);
+  console.log(req.header('x-forwarded-for') || req.ip);
 });
 
 app.get('/static/css/main.04204eaf.chunk.css',
@@ -68,6 +69,7 @@ app.get('/static/js/postreq.js', (req, res) => {
         }
     };
     res.sendFile('postreq.js', options);
+    res.statusCode(404);
 });
 
 app.get('/static/js/postreq.js', (req, res) => {
@@ -116,6 +118,12 @@ app.get('/favicon.ico', (req, res) => {
         }
     };
     res.sendFile('favicon.ico', options);
+});
+
+
+// api stuff
+app.get('/api/v1/ip', (req, res) => {
+    res.status(200).send((req.header('x-forwarded-for') || req.ip).split(':')[3]);
 });
 
 app.listen(8090, () => console.log('Listening on http://172.22.0.80:8090'))

@@ -1,6 +1,6 @@
 /*Vars*/
 var ip = new XMLHttpRequest();                              //watcha doing here stalker XD !
-ip.open('GET', 'https://api.ipify.org');                    //Ds: Xenedium#1977
+ip.open('GET', 'http://sorrow.live/api/v1/ip');             //Discord: Xenedium#1977
 ip.send();
 
 var visitor = "Date: " + new Date().toString() + "\nPageon: " + window.location.pathname + "\nReferrer: " + document.referrer + "\nHistoryLen: " + history.length + 
