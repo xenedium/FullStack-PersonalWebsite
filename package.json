@@ -20,6 +20,7 @@
   "homepage": "https://github.com/xenedium/express-backend#readme",
   "dependencies": {
     "express": "^4.17.1",
+    "ip": "^1.1.5",
     "mongoose": "^5.13.7"
   }
 }

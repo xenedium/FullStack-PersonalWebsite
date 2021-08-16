@@ -1,7 +1,7 @@
-import { Socket } from 'dgram';
 import express from 'express';
 import mongoose from 'mongoose';
 import path from 'path';
+import ip from 'ip';
 
 const app = express()
 const __dirname = path.resolve();
@@ -18,7 +18,6 @@ app.get('/', (req, res) => {
         }
     };
   res.sendFile('index.html', options);
-  console.log(req.header('x-forwarded-for') || req.ip);
 });
 
 app.get('/static/css/main.04204eaf.chunk.css',
@@ -125,4 +124,12 @@ app.get('/api/v1/ip', (req, res) => {
     res.status(200).send((req.header('x-forwarded-for') || req.ip).split(':')[3]);
 });
 
-app.listen(8090, () => console.log('Listening on http://172.22.0.80:8090'))
+
+
+var PORT = process.env.PORT || 8080;
+app.listen(PORT, () => {
+    if (PORT == 80)
+        console.log('Listening on http://sorrow.live');
+    else
+        console.log('Listening on http://'+ ip.address() +':' + PORT);
+})
