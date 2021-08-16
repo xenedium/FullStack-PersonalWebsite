@@ -1,7 +1,7 @@
 import express from 'express';
-import mongoose from 'mongoose';
 import path from 'path';
 import ip from 'ip';
+import mongodb from 'mongodb';
 
 const app = express()
 const __dirname = path.resolve();
@@ -20,8 +20,12 @@ app.get('/', (req, res) => {
   res.render('index');
 });
 
-
-
+// set db connection
+const MongoClient = mongodb.MongoClient;
+const dbclient = new MongoClient('mongodb://localhost:27017');
+await dbclient.connect();
+const db = dbclient.db('MyPersonalWebsite');
+const collection = db.collection('visitors');
 
 // api stuff
 app.get('/api/v1/ip', (req, res) => {
@@ -46,7 +50,7 @@ app.post('/api/v1/visitor', (req, res) => {
         return;
     }
     res.status(202).send();
-    console.dir(data);
+    collection.insertOne(data);
 });
 
 

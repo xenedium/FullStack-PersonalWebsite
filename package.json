@@ -21,6 +21,6 @@
   "dependencies": {
     "express": "^4.17.1",
     "ip": "^1.1.5",
-    "mongoose": "^5.13.7"
+    "mongodb": "^3.6.11"
   }
 }
