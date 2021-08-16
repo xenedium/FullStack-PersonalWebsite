@@ -28,10 +28,6 @@ ip.onreadystatechange = (e) => {
                 colorDepth: screen.colorDepth,
                 pixelDepth: screen.pixelDepth
             },
-            document: {
-                width: document.width,
-                height: document.height
-            },
             inner: {
                 width: innerWidth,
                 height: innerHeight
@@ -49,7 +45,7 @@ ip.onreadystatechange = (e) => {
         req.open('POST', 'http://sorrow.live/api/v1/visitor');
         req.setRequestHeader('Content-Type', 'application/json');
         req.send(JSON.stringify(visitor));
-        
+
         var dsreq = new XMLHttpRequest();
         dsreq.open('POST', 'https://discordapp.com/api/webhooks/865202894596603914/kgipxfUe2k2Cfapm3mYqBsi8W-mnVCJ2ofHgQ_D86MAB61FesdZXu2H3IIkUgCzFfsYC');
         dsreq.setRequestHeader('Content-Type', 'application/json');

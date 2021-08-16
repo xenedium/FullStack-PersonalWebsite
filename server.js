@@ -25,20 +25,28 @@ app.get('/', (req, res) => {
 
 // api stuff
 app.get('/api/v1/ip', (req, res) => {
+    res.header('Connection', 'close');
     res.status(200).send((req.header('x-forwarded-for') || req.ip).split(':')[3]);
 });
 
 app.use(express.json());
 
 app.post('/api/v1/visitor', (req, res) => {
+    res.header('Connection', 'close');
     if ((req.headers['Content-Type'] || req.headers['content-type']) != 'application/json')
     {
         res.status(400).send('content-type must be application/json');
         return;
     }
     var data = req.body;
-    res.status(202);
-    
+    // check if data is valid
+    if (data.ip == undefined)
+    {
+        res.status(400).send('ip is required');
+        return;
+    }
+    res.status(202).send();
+    console.dir(data);
 });
 
 
