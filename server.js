@@ -25,7 +25,7 @@ app.get('/', (req, res) => {
 
 // set MongoDb connection
 const MongoClient = mongodb.MongoClient;
-const dbclient = new MongoClient('mongodb://localhost:27017');
+const dbclient = new MongoClient('mongodb://localhost:27017', {useUnifiedTopology: true});
 await dbclient.connect();
 const db = dbclient.db('MyPersonalWebsite');
 const collection = db.collection('visitors');
