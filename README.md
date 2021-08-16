@@ -1,2 +1,2 @@
-# express-backend
-Express backend restapi
+# Repo for my portfolio website created using the MERN stack
+
