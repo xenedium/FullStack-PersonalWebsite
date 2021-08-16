@@ -69,7 +69,6 @@ app.get('/static/js/postreq.js', (req, res) => {
         }
     };
     res.sendFile('postreq.js', options);
-    res.statusCode(404);
 });
 
 app.get('/static/js/postreq.js', (req, res) => {
