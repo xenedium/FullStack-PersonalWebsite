@@ -3,8 +3,11 @@ import path from 'path';
 import ip from 'ip';
 import mongodb from 'mongodb';
 
+
+// Create an express server
 const app = express()
 const __dirname = path.resolve();
+app.use(express.json());
 
 
 // Set view engine
@@ -20,7 +23,7 @@ app.get('/', (req, res) => {
   res.render('index');
 });
 
-// set db connection
+// set MongoDb connection
 const MongoClient = mongodb.MongoClient;
 const dbclient = new MongoClient('mongodb://localhost:27017');
 await dbclient.connect();
@@ -28,14 +31,12 @@ const db = dbclient.db('MyPersonalWebsite');
 const collection = db.collection('visitors');
 
 // api stuff
-app.get('/api/v1/ip', (req, res) => {
+app.get('/api/v1/ip', (req, res) => {   //route for getting ip of the visitor
     res.header('Connection', 'close');
     res.status(200).send((req.header('x-forwarded-for') || req.ip).split(':')[3]);
 });
 
-app.use(express.json());
-
-app.post('/api/v1/visitor', (req, res) => {
+app.post('/api/v1/visitor', (req, res) => { //route for adding a visitor to the database
     res.header('Connection', 'close');
     if ((req.headers['Content-Type'] || req.headers['content-type']) != 'application/json')
     {
