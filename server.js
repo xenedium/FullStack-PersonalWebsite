@@ -1,8 +1,8 @@
 import express from 'express';
 import path from 'path';
-import ip from 'ip';
 import mongodb from 'mongodb';
 import https from 'https';
+import http from 'http';
 import fs from 'fs';
 
 const privateKey = fs.readFileSync("./certs/sorrow.live.key");
@@ -15,6 +15,7 @@ const credentials = {
 
 // Create an express server
 const app = express()
+const httpApp = express();
 const __dirname = path.resolve();
 app.use(express.json());
 
@@ -30,6 +31,11 @@ app.use(express.static(__dirname + '/website'));
 // Set index route
 app.get('/', (req, res) => {
   res.render('index');
+});
+
+// redirect to https
+httpApp.get('*', (req, res) => {
+  res.redirect('https://sorrow.live/');
 });
 
 // set MongoDb connection
@@ -64,7 +70,11 @@ app.post('/api/v1/visitor', (req, res) => { //route for adding a visitor to the 
 });
 
 
+// Create a server
+const httpServer = http.createServer(httpApp);
 const httpsServer = https.createServer(credentials, app);
+
+httpServer.listen(80);
 httpsServer.listen(443, () => {
     console.log('Server running on https://sorrow.live');
 });
