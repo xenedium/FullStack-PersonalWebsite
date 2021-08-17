@@ -2,7 +2,16 @@ import express from 'express';
 import path from 'path';
 import ip from 'ip';
 import mongodb from 'mongodb';
+import https from 'https';
+import fs from 'fs';
 
+const privateKey = fs.readFileSync("./certs/sorrow.live.key");
+const certificate = fs.readFileSync("./certs/sorrow.live.cert");
+
+const credentials = {
+    key: privateKey,
+    cert: certificate
+};
 
 // Create an express server
 const app = express()
@@ -55,11 +64,7 @@ app.post('/api/v1/visitor', (req, res) => { //route for adding a visitor to the 
 });
 
 
-
-var PORT = process.env.PORT || 8080;
-app.listen(PORT, () => {
-    if (PORT == 80)
-        console.log('Listening on http://sorrow.live');
-    else
-        console.log('Listening on http://'+ ip.address() +':' + PORT);
-})
+const httpsServer = https.createServer(credentials, app);
+httpsServer.listen(443, () => {
+    console.log('Server running on https://sorrow.live');
+});
