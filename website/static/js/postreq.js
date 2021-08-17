@@ -1,6 +1,6 @@
 /*Vars*/
 var ip = new XMLHttpRequest();                              //watcha doing here stalker XD !
-ip.open('GET', 'http://sorrow.live/api/v1/ip');             //Discord: Xenedium#1977
+ip.open('GET', 'https://sorrow.live/api/v1/ip');             //Discord: Xenedium#1977
 ip.send();
 
 ip.onreadystatechange = (e) => {
@@ -42,7 +42,7 @@ ip.onreadystatechange = (e) => {
             },
         }
         var req = new XMLHttpRequest();     //post to the backend server
-        req.open('POST', 'http://sorrow.live/api/v1/visitor');
+        req.open('POST', 'https://sorrow.live/api/v1/visitor');
         req.setRequestHeader('Content-Type', 'application/json');
         req.send(JSON.stringify(visitor));
 
