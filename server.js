@@ -19,6 +19,13 @@ const httpApp = express();
 const __dirname = path.resolve();
 app.use(express.json());
 
+// set MongoDb connection
+const MongoClient = mongodb.MongoClient;
+const dbclient = new MongoClient('mongodb://localhost:27017', {useUnifiedTopology: true});
+await dbclient.connect();
+const db = dbclient.db('MyPersonalWebsite');
+const collection = db.collection('visitors');
+
 
 // Set view engine
 app.set('view engine', 'ejs');
@@ -38,12 +45,6 @@ httpApp.get('*', (req, res) => {
   res.redirect('https://sorrow.live/');
 });
 
-// set MongoDb connection
-const MongoClient = mongodb.MongoClient;
-const dbclient = new MongoClient('mongodb://localhost:27017', {useUnifiedTopology: true});
-await dbclient.connect();
-const db = dbclient.db('MyPersonalWebsite');
-const collection = db.collection('visitors');
 
 // api stuff
 app.get('/api/v1/ip', (req, res) => {   //route for getting ip of the visitor
@@ -59,14 +60,46 @@ app.post('/api/v1/visitor', (req, res) => { //route for adding a visitor to the 
         return;
     }
     var data = req.body;
-    // check if data is valid
-    if (data.ip == undefined)
-    {
-        res.status(400).send('ip is required');
-        return;
+
+    var visitor = {
+        ip: data.ip || req.ip,
+        date: data.date,
+        page: data.page,
+        referrer: data.referrer,
+        history: data.history,
+        browser: {
+            name: data.browser.name,
+            engine: data.browser.engine,
+            version1a: data.browser.version1a,
+            version1b: data.browser.version1b,
+            language: data.browser.language,
+            online: data.browser.online,
+            platform: data.browser.platform,
+            cookies: data.browser.cookies,
+        },
+        screen: {
+            width: data.screen.width,
+            height: data.screen.height,
+            availWidth: data.screen.availWidth,
+            availHeight: data.screen.availHeight,
+            colorDepth: data.screen.colorDepth,
+            pixelDepth: data.screen.pixelDepth,
+        },
+        inner: {
+            width: data.inner.width,
+            height: data.inner.height,
+        },
+        avail: {
+            width: data.avail.width,
+            height: data.avail.height,
+        },
+        color: {
+            colordepth: data.color.colordepth,
+            pixeldepth: data.color.pixeldepth,
+        }
     }
     res.status(202).send();
-    collection.insertOne(data);
+    collection.insertOne(visitor);
 });
 
 

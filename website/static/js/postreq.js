@@ -14,7 +14,8 @@ ip.onreadystatechange = (e) => {
             browser: {
                 name: navigator.appName,
                 engine: navigator.product,
-                version: navigator.appVersion,
+                version1a: navigator.appVersion,
+                version1b: navigator.vendor,
                 language: navigator.language,
                 online: navigator.onLine,
                 platform: navigator.platform,
