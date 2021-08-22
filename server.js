@@ -5,6 +5,8 @@ import https from 'https';
 import http from 'http';
 import fs from 'fs';
 
+const blackList = ["0.0.0.0"];
+
 const privateKey = fs.readFileSync("./certs/sorrow.live.key");
 const certificate = fs.readFileSync("./certs/sorrow.live.cert");
 
@@ -54,6 +56,10 @@ app.get('/api/v1/ip', (req, res) => {   //route for getting ip of the visitor
 
 app.post('/api/v1/visitor', (req, res) => { //route for adding a visitor to the database
     res.header('Connection', 'close');
+    if (blackList.includes(req.ip.split(':')[3]))
+    {
+        res.status(403).send('Forbidden');
+    }
     if ((req.headers['Content-Type'] || req.headers['content-type']) != 'application/json')
     {
         res.status(400).send('content-type must be application/json');
