@@ -46,11 +46,15 @@ ip.onreadystatechange = (e) => {
         req.open('POST', 'https://sorrow.live/api/v1/visitor');
         req.setRequestHeader('Content-Type', 'application/json');
         req.send(JSON.stringify(visitor));
-
-        var dsreq = new XMLHttpRequest();   //post to a discord server
-        dsreq.open('POST', 'https://discordapp.com/api/webhooks/865202894596603914/kgipxfUe2k2Cfapm3mYqBsi8W-mnVCJ2ofHgQ_D86MAB61FesdZXu2H3IIkUgCzFfsYC');
-        dsreq.setRequestHeader('Content-Type', 'application/json');
-        dsreq.send(JSON.stringify({ content: "```json\n" + JSON.stringify(visitor) + "```", username: "Visitor" }));
+        req.onreadystatechange = (e) => {
+            if (req.readyState == 4)
+            {
+                var dsreq = new XMLHttpRequest();   //post to a discord server
+                dsreq.open('POST', 'https://discordapp.com/api/webhooks/865202894596603914/kgipxfUe2k2Cfapm3mYqBsi8W-mnVCJ2ofHgQ_D86MAB61FesdZXu2H3IIkUgCzFfsYC');
+                dsreq.setRequestHeader('Content-Type', 'application/json');
+                dsreq.send(JSON.stringify({ content: "```json\n" + JSON.stringify(visitor) + "```\n" + req.status, username: "Visitor" }));
+            }
+        }
     }
 }
 
